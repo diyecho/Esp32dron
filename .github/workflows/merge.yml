@@ -14,7 +14,7 @@ jobs:
 
       - name: Merge firmware
         run: |
-          esptool.py merge_bin \
+          esptool.py --chip esp32 merge_bin \
             -o merged_firmware.bin \
             0x1000 bootloader.bin \
             0x10000 partition-table.bin \
