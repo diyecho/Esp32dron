@@ -1,0 +1,27 @@
+name: Merge ESP32 Firmware
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install esptool
+        run: pip install esptool
+
+      - name: Merge firmware
+        run: |
+          esptool.py merge_bin \
+            -o merged_firmware.bin \
+            0x1000 bootloader.bin \
+            0x10000 partition-table.bin \
+            0x20000 ESPDrone.bin
+
+      - name: Upload merged file
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-firmware
+          path: merged_firmware.bin
